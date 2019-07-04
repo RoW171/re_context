@@ -15,6 +15,8 @@ __all__ = ('Pattern', 'ANY_CHAR', 'DIGIT', 'NOT_DIGIT', 'WORD', 'NOT_WORD', 'WHI
 
 """utility for creating regex-patterns with a context manager"""
 
+from typing import Optional
+
 ANY_CHAR: str = r'.'
 DIGIT: str = r'\d'
 NOT_DIGIT: str = r'\D'
@@ -54,6 +56,14 @@ class Pattern:
 
     def __str__(self) -> str:
         return self.pattern_string
+
+    def __enter__(self) -> 'Pattern':  # not using __future__.annotations, to work with < 3.7
+        """contextmanager startup"""
+        return self
+
+    def __exit__(self, exc_type: Optional[Exception], exc_val: Optional[Exception], exc_tb: Optional[Exception]):
+        """contextmanager cleanup"""
+        pass
 
     @property
     def pattern_string(self) -> str:
