@@ -15,7 +15,8 @@ __all__ = ('Pattern', 'ANY_CHAR', 'DIGIT', 'NOT_DIGIT', 'WORD', 'NOT_WORD', 'WHI
 
 """utility for creating regex-patterns with a context manager"""
 
-from typing import Optional
+from re import compile
+from typing import Optional, Pattern as RE_Pattern
 
 ANY_CHAR: str = r'.'
 DIGIT: str = r'\d'
@@ -64,6 +65,9 @@ class Pattern:
     def __exit__(self, exc_type: Optional[Exception], exc_val: Optional[Exception], exc_tb: Optional[Exception]):
         """contextmanager cleanup"""
         pass
+
+    @property
+    def compiled(self) -> RE_Pattern: return compile(self.pattern_string)
 
     @property
     def pattern_string(self) -> str:
