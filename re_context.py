@@ -13,10 +13,10 @@ __all__ = ('Pattern', 'ANY_CHAR', 'DIGIT', 'NOT_DIGIT', 'WORD', 'NOT_WORD', 'WHI
            'NOT_WHITESPACE', 'WORD_BOUNDRY', 'NOT_WORD_BOUNDRY', 'STRING_BEGIN',
            'STRING_END', 'ZERO_OR_MORE', 'ONE_OR_MORE', 'ZERO_OR_ONE', 'EITHER_OR',)
 
-"""utility for creating regex-patterns with a context manager"""
+"""Utility for creating regex-patterns with a context manager."""
 
 from re import compile
-from typing import Optional, Pattern as RE_Pattern
+from typing import Optional, Union, Pattern as RE_Pattern
 
 ANY_CHAR: str = r'.'
 DIGIT: str = r'\d'
@@ -46,7 +46,7 @@ _RANGE_OF_NUMBERS: str = r'{{{},{}}}'
 
 
 class Pattern:
-    """RegEx pattern helper class"""
+    """RegEx pattern helper class."""
     _pattern_string: str
 
     def __init__(self, start_string: str = r''):
@@ -59,21 +59,27 @@ class Pattern:
         return self.pattern_string
 
     def __enter__(self) -> 'Pattern':  # not using __future__.annotations, to work with < 3.7
-        """contextmanager startup"""
+        """contextmanager startup."""
         return self
 
     def __exit__(self, exc_type: Optional[Exception], exc_val: Optional[Exception], exc_tb: Optional[Exception]):
-        """contextmanager cleanup"""
+        """contextmanager cleanup."""
         pass
+
+    def __iadd__(self, other: Union[str, 'Pattern']) -> 'Pattern':
+        """Augmented Addition; For (raw)strings or re_context.Patterns as others only."""
+        if isinstance(other, Pattern): other = other.pattern_string
+        self.pattern_string += other
+        return self
 
     @property
     def compiled(self) -> RE_Pattern:
-        """Getter for the re.compiled pattern_string"""
+        """The re.compiled pattern_string."""
         return compile(self.pattern_string)
 
     @property
     def pattern_string(self) -> str:
-        """The string representing the pattern"""
+        """The string representing the pattern."""
         return self._pattern_string
 
     @pattern_string.setter
