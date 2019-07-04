@@ -67,7 +67,9 @@ class Pattern:
         pass
 
     @property
-    def compiled(self) -> RE_Pattern: return compile(self.pattern_string)
+    def compiled(self) -> RE_Pattern:
+        """Getter for the re.compiled pattern_string"""
+        return compile(self.pattern_string)
 
     @property
     def pattern_string(self) -> str:
