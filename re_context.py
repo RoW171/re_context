@@ -58,7 +58,7 @@ class Pattern:
     def __str__(self) -> str:
         return self.pattern_string
 
-    def __enter__(self) -> 'Pattern':  # not using __future__.annotations, to work with < 3.7
+    def __enter__(self) -> 'Pattern':  # not using __future__.annotations, to work with <3.7
         """contextmanager startup."""
         return self
 
@@ -85,6 +85,11 @@ class Pattern:
     @pattern_string.setter
     def pattern_string(self, new_string: str):
         self._pattern_string = new_string
+
+    def clear(self) -> 'Pattern':
+        """Clear the pattern_string; Returns self to to reuse in a contextmanager."""
+        self.pattern_string = r''
+        return self
 
 
 if __name__ == '__main__': pass
