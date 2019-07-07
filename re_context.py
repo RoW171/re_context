@@ -47,6 +47,7 @@ _RANGE_OF_NUMBERS: str = r'{{{},{}}}'
 
 class Pattern:
     """RegEx pattern helper class."""
+
     _pattern_string: str
 
     def __init__(self, start_string: str = r''):
@@ -90,6 +91,89 @@ class Pattern:
         """Clear the pattern_string; Returns self to to reuse in a contextmanager."""
         self.pattern_string = r''
         return self
+
+    def add(self, char: str) -> None:
+        """Add any data to the pattern_string. Usage of rawstrings highly advudes."""
+        self.pattern_string += char
+
+    def add_any_char(self) -> None:
+        """Add r'.' to pattern_string. Represents any character."""
+        self.pattern_string += ANY_CHAR
+
+    def add_digit(self) -> None:
+        r"""Add r'\d' to pattern_string. Represents any digit."""
+        self.pattern_string += DIGIT
+
+    def add_not_digit(self) -> None:
+        r"""Add r'\D' to pattern_string. Represents any character BUT digits."""
+        self.pattern_string += NOT_DIGIT
+
+    def add_word(self) -> None:
+        r"""Add r'\w' to pattern_string. Represents any letter."""
+        self.pattern_string += WORD
+
+    def add_not_word(self) -> None:
+        r"""Add r'\W' to pattern_string. Represents any character BUT a letter."""
+        self.pattern_string += NOT_WORD
+
+    def add_whitespace(self) -> None:
+        r"""Add r'\s' to pattern_string. Represents any whitespace."""
+        self.pattern_string += WHITESPACE
+
+    def add_not_whitespace(self) -> None:
+        r"""Add r'\S' to pattern_string. Represents any character BUT a whitespaces."""
+        self.pattern_string += NOT_WHITESPACE
+
+    def add_word_boundry(self) -> None:
+        r"""Add r'\b' to pattern_string. Represents any range of word-characters
+        seperated by non-word-characters."""
+        self.pattern_string += WORD_BOUNDRY
+
+    def add_not_word_boundry(self) -> None:
+        r"""Add r'\B' to pattern_string. Opposite Pattern.add_word_boundry()."""
+        self.pattern_string += NOT_WORD_BOUNDRY
+
+    def add_string_begin(self) -> None:
+        """Add r'^' to pattern_string. Represents the start of a string."""
+        self.pattern_string += STRING_BEGIN
+
+    def add_string_end(self) -> None:
+        """Add r'$' to pattern_string. Represents the end of a string."""
+        self.pattern_string += STRING_END
+
+    def add_zero_or_more(self) -> None:
+        """Add r'*' to pattern_string. Represents zero or more characters."""
+        self.pattern_string += ZERO_OR_MORE
+
+    def add_one_or_more(self) -> None:
+        """Add r'+' to pattern_string. Represents one or more characters."""
+        self.pattern_string += ONE_OR_MORE
+
+    def add_zero_or_one(self) -> None:
+        """Add r'?' to pattern_string. Represents zero or one character."""
+        self.pattern_string += ZERO_OR_ONE
+
+    def add_match(self, *match) -> None:
+        """Add a match to pattern_string. Takes any number above zero
+        string arguments to put within the match."""
+        self.pattern_string += _MATCH.format(''.join(match))
+
+    def add_not_match(self, *not_match) -> None:
+        """Add ^-match to pattern_string. Basically same usage as add_not_match."""
+        self.pattern_string += _NOT_MATCH.format(''.join(not_match))
+
+    def add_group(self, *group) -> None:
+        """Add group to pattern_string. Represents any character. Takes any number
+        above zero string arguments to put within the match."""
+        self.pattern_string += _GROUP.format(''.join(group))
+
+    def add_exact_number(self, number: int) -> None:
+        """Add a exact number of characters to pattern_string."""
+        self.pattern_string += _EXACT_NUMBER.format(number)
+
+    def add_range_of_numbers(self, start: int, end: int) -> None:
+        """Add a range of chatacters to pattern_string."""
+        self.pattern_string += _RANGE_OF_NUMBERS.format(start, end)
 
 
 if __name__ == '__main__': pass
